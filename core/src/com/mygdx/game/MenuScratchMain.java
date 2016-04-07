@@ -9,7 +9,7 @@ import com.mygdx.game.Screens.ScrGameover;
  * Created by luke on 2016-04-05.
  */
 
-public class MenuMain extends Game {
+public class MenuScratchMain extends Game {
     ScrMenu scrMenu;
     ScrPlay scrPlay;
     ScrGameover scrGameover;

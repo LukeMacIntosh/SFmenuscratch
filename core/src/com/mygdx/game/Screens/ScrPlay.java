@@ -11,13 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.mygdx.game.MenuMain;
+import com.mygdx.game.MenuScratchMain;
 
 /**
  * Created by luke on 2016-04-05.
  */
 public class ScrPlay implements Screen, InputProcessor {
-    MenuMain menuMain;
+    MenuScratchMain menuScratchMain;
     Stage stage;
     TextButton btnGameover, btnMenu;
     TextButton.TextButtonStyle textButtonStyle;
@@ -25,8 +25,8 @@ public class ScrPlay implements Screen, InputProcessor {
     Skin skin;
     TextureAtlas buttonAtlas;
 
-    public ScrPlay(MenuMain menuMain) {  //Referencing the main class.
-        this.menuMain = menuMain;
+    public ScrPlay(MenuScratchMain menuScratchMain) {  //Referencing the main class.
+        this.menuScratchMain = menuScratchMain;
     }
 
     public void create() {
@@ -72,8 +72,8 @@ public class ScrPlay implements Screen, InputProcessor {
     public void btnGameoverListener() {
         btnGameover.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                menuMain.currentState = MenuMain.GameState.OVER;
-                menuMain.updateState();
+                menuScratchMain.currentState = MenuScratchMain.GameState.OVER;
+                menuScratchMain.updateState();
             }
         });
     }
@@ -81,8 +81,8 @@ public class ScrPlay implements Screen, InputProcessor {
     public void btnMenuListener() {
         btnMenu.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                menuMain.currentState = MenuMain.GameState.MENU;
-                menuMain.updateState();
+                menuScratchMain.currentState = MenuScratchMain.GameState.MENU;
+                menuScratchMain.updateState();
             }
         });
     }
