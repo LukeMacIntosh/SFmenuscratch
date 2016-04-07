@@ -1,6 +1,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,7 +16,7 @@ import com.mygdx.game.MenuMain;
 /**
  * Created by luke on 2016-04-05.
  */
-public class ScrGameover implements Screen {
+public class ScrGameover implements Screen, InputProcessor {
     MenuMain menuMain;
     Stage stage;
     TextButton button;
@@ -33,14 +34,20 @@ public class ScrGameover implements Screen {
         font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
         btnSkin();
-        button = new TextButton("SCREEN 1", textButtonStyle);
+        button = new TextButton("this is GAMEOVER, click to go back to the MENU", textButtonStyle);
         button.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
-        button.setPosition(0, 0);
+        button.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 4,
+                Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 8);
         stage.addActor(button);
+        btnListener();
     }
 
-    //@Override
-    public void render() {
+    @Override
+    public void show() { //This is called when you set the screen to this class.
+        create();
+    }
+
+    public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1); //black background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
@@ -61,15 +68,14 @@ public class ScrGameover implements Screen {
         textButtonStyle.down = skin.getDrawable("MenuButtonDown");
         textButtonStyle.checked = skin.getDrawable("MenuButtonUp");
     }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-
+    public void btnListener() {
+        button.addListener(new ChangeListener() {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                menuMain.currentState = MenuMain.GameState.MENU;
+                menuMain.updateState();
+                System.out.println("switching back to the first screen");
+            }
+        });
     }
 
     @Override
@@ -95,5 +101,45 @@ public class ScrGameover implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

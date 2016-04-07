@@ -6,15 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MenuMain;
 
 /**
  * Created by luke on 2016-04-05.
  */
-public class ScrMenu implements Screen , InputProcessor {
+public class ScrMenu implements Screen, InputProcessor {
     MenuMain menuMain;
     Stage stage;
     TextButton button;
@@ -32,21 +34,24 @@ public class ScrMenu implements Screen , InputProcessor {
         font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
         btnSkin();
-        button = new TextButton("SCREEN 2", textButtonStyle);
+        button = new TextButton("this is the MENU, click to PLAY", textButtonStyle);
         button.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
-        button.setPosition(0, 0);
+        button.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 4,
+                Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 8);
         stage.addActor(button);
+        btnListener();
     }
 
-    public void render() {
+    @Override
+    public void show() { //This is called when you set the screen to this class.
+        create();
+    }
+
+    public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 0, 1); //Green background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        if (button.isPressed()) {
-            menuMain.currentState = MenuMain.GameState.PLAY;
-            menuMain.updateState();
-        }
     }
 
     private void btnSkin() {
@@ -60,14 +65,14 @@ public class ScrMenu implements Screen , InputProcessor {
         textButtonStyle.checked = skin.getDrawable("MenuButtonUp");
     }
 
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-
+    public void btnListener() {
+        button.addListener(new ChangeListener() {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                menuMain.currentState = MenuMain.GameState.PLAY;
+                menuMain.updateState();
+                System.out.println("switching to second screen");
+            }
+        });
     }
 
     @Override
