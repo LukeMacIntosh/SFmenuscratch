@@ -19,7 +19,7 @@ import com.mygdx.game.MenuMain;
 public class ScrMenu implements Screen, InputProcessor {
     MenuMain menuMain;
     Stage stage;
-    TextButton button;
+    TextButton btnGameover, btnPlay;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -34,12 +34,16 @@ public class ScrMenu implements Screen, InputProcessor {
         font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
         btnSkin();
-        button = new TextButton("this is the MENU, click to PLAY", textButtonStyle);
-        button.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
-        button.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 4,
-                Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 8);
-        stage.addActor(button);
-        btnListener();
+        btnPlay = new TextButton("PLAY", textButtonStyle);
+        btnPlay.setSize(200, 80);
+        btnPlay.setPosition(440, 0);
+        btnGameover = new TextButton("GAMEOVER", textButtonStyle);
+        btnGameover.setSize(200, 80);
+        btnGameover.setPosition(0, 0);
+        stage.addActor(btnPlay);
+        stage.addActor(btnGameover);
+        btnPlayListener();
+        btnGameoverListener();
     }
 
     @Override
@@ -65,12 +69,20 @@ public class ScrMenu implements Screen, InputProcessor {
         textButtonStyle.checked = skin.getDrawable("MenuButtonUp");
     }
 
-    public void btnListener() {
-        button.addListener(new ChangeListener() {
+    public void btnPlayListener() {
+        btnPlay.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 menuMain.currentState = MenuMain.GameState.PLAY;
                 menuMain.updateState();
-                System.out.println("switching to second screen");
+            }
+        });
+    }
+
+    public void btnGameoverListener() {
+        btnGameover.addListener(new ChangeListener() {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                menuMain.currentState = MenuMain.GameState.OVER;
+                menuMain.updateState();
             }
         });
     }

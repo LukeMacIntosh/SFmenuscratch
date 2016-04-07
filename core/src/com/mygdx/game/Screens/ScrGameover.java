@@ -19,7 +19,7 @@ import com.mygdx.game.MenuMain;
 public class ScrGameover implements Screen, InputProcessor {
     MenuMain menuMain;
     Stage stage;
-    TextButton button;
+    TextButton btnMenu, btnPlay;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -34,12 +34,16 @@ public class ScrGameover implements Screen, InputProcessor {
         font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
         btnSkin();
-        button = new TextButton("this is GAMEOVER, click to go back to the MENU", textButtonStyle);
-        button.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
-        button.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 4,
-                Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 8);
-        stage.addActor(button);
-        btnListener();
+        btnMenu = new TextButton("MENU", textButtonStyle);
+        btnMenu.setSize(200, 80);
+        btnMenu.setPosition(440, 0);
+        btnPlay = new TextButton("PLAY", textButtonStyle);
+        btnPlay.setSize(200, 80);
+        btnPlay.setPosition(0, 0);
+        stage.addActor(btnMenu);
+        stage.addActor(btnPlay);
+        btnMenuListener();
+        btnPlayListener();
     }
 
     @Override
@@ -52,10 +56,6 @@ public class ScrGameover implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        if (button.isPressed()) {
-            menuMain.currentState = MenuMain.GameState.MENU;
-            menuMain.updateState();
-        }
     }
 
     private void btnSkin() {
@@ -68,12 +68,21 @@ public class ScrGameover implements Screen, InputProcessor {
         textButtonStyle.down = skin.getDrawable("MenuButtonDown");
         textButtonStyle.checked = skin.getDrawable("MenuButtonUp");
     }
-    public void btnListener() {
-        button.addListener(new ChangeListener() {
+
+    public void btnMenuListener() {
+        btnMenu.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 menuMain.currentState = MenuMain.GameState.MENU;
                 menuMain.updateState();
-                System.out.println("switching back to the first screen");
+            }
+        });
+    }
+
+    public void btnPlayListener() {
+        btnPlay.addListener(new ChangeListener() {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                menuMain.currentState = MenuMain.GameState.PLAY;
+                menuMain.updateState();
             }
         });
     }

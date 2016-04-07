@@ -19,7 +19,7 @@ import com.mygdx.game.MenuMain;
 public class ScrPlay implements Screen, InputProcessor {
     MenuMain menuMain;
     Stage stage;
-    TextButton button;
+    TextButton btnGameover, btnMenu;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -34,12 +34,16 @@ public class ScrPlay implements Screen, InputProcessor {
         font = new BitmapFont();
         Gdx.input.setInputProcessor(stage);
         btnSkin();
-        button = new TextButton("this is PLAY, click for GAMEOVER", textButtonStyle);
-        button.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4);
-        button.setPosition(Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 4,
-                Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 8);
-        stage.addActor(button);
-        btnListener();
+        btnGameover = new TextButton("GAMEOVER", textButtonStyle);
+        btnGameover.setSize(200, 80);
+        btnGameover.setPosition(440, 0);
+        btnMenu = new TextButton("MENU", textButtonStyle);
+        btnMenu.setSize(200, 80);
+        btnMenu.setPosition(0, 0);
+        stage.addActor(btnGameover);
+        stage.addActor(btnMenu);
+        btnGameoverListener();
+        btnMenuListener();
     }
 
     @Override
@@ -64,12 +68,21 @@ public class ScrPlay implements Screen, InputProcessor {
         textButtonStyle.down = skin.getDrawable("MenuButtonDown");
         textButtonStyle.checked = skin.getDrawable("MenuButtonUp");
     }
-    public void btnListener() {
-        button.addListener(new ChangeListener() {
+
+    public void btnGameoverListener() {
+        btnGameover.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 menuMain.currentState = MenuMain.GameState.OVER;
                 menuMain.updateState();
-                System.out.println("switching to the third screen");
+            }
+        });
+    }
+
+    public void btnMenuListener() {
+        btnMenu.addListener(new ChangeListener() {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                menuMain.currentState = MenuMain.GameState.MENU;
+                menuMain.updateState();
             }
         });
     }

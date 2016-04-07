@@ -34,6 +34,7 @@ public class MenuMain extends Game {
         currentState = GameState.MENU;
         updateState();
     }
+
     @Override
     public void render() {
         super.render();
