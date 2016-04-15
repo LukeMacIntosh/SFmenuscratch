@@ -5,72 +5,59 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.MenuScratchMain;
+import com.mygdx.game.TbMenu;
+import com.mygdx.game.TbsMenu;
 
 /**
  * Created by luke on 2016-04-05.
  */
 public class ScrGameover implements Screen, InputProcessor {
     MenuScratchMain menuScratchMain;
+    TbsMenu tbsMenu;
+    TbMenu tbPlay, tbMenu;
     Stage stage;
-    TextButton btnMenu, btnPlay;
-    TextButton.TextButtonStyle textButtonStyle;
-    BitmapFont font;
-    Skin skin;
-    TextureAtlas buttonAtlas;
+    SpriteBatch batch;
+    BitmapFont screenName;
 
     public ScrGameover(MenuScratchMain menuScratchMain) {  //Referencing the main class.
         this.menuScratchMain = menuScratchMain;
     }
 
-    public void create() {
+    public void show() {
         stage = new Stage();
-        font = new BitmapFont();
+        tbsMenu = new TbsMenu();
+        batch = new SpriteBatch();
+        screenName = new BitmapFont();
+        tbPlay = new TbMenu("BACK", tbsMenu);
+        tbMenu = new TbMenu("MENU", tbsMenu);
+        tbPlay.setY(0);
+        tbPlay.setX(0);
+        tbMenu.setY(0);
+        tbMenu.setX(440);
+        stage.addActor(tbMenu);
+        stage.addActor(tbPlay);
         Gdx.input.setInputProcessor(stage);
-        btnSkin();
-        btnMenu = new TextButton("MENU", textButtonStyle);
-        btnMenu.setSize(200, 80);
-        btnMenu.setPosition(440, 0);
-        btnPlay = new TextButton("PLAY", textButtonStyle);
-        btnPlay.setSize(200, 80);
-        btnPlay.setPosition(0, 0);
-        stage.addActor(btnMenu);
-        stage.addActor(btnPlay);
         btnMenuListener();
         btnPlayListener();
-    }
-
-    @Override
-    public void show() { //This is called when you set the screen to this class.
-        create();
     }
 
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1); //black background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        screenName.draw(batch, "This is the GAMEOVER screen", 230, 275);
+        batch.end();
         stage.act();
         stage.draw();
     }
 
-    private void btnSkin() {
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("MenuButton.pack")); // stole Matt Beemer's pack file
-        skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;
-        textButtonStyle.up = skin.getDrawable("MenuButtonUp");
-        textButtonStyle.down = skin.getDrawable("MenuButtonDown");
-        textButtonStyle.checked = skin.getDrawable("MenuButtonUp");
-    }
-
     public void btnMenuListener() {
-        btnMenu.addListener(new ChangeListener() {
+        tbMenu.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 menuScratchMain.currentState = MenuScratchMain.GameState.MENU;
                 menuScratchMain.updateState();
@@ -79,7 +66,7 @@ public class ScrGameover implements Screen, InputProcessor {
     }
 
     public void btnPlayListener() {
-        btnPlay.addListener(new ChangeListener() {
+        tbPlay.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 menuScratchMain.currentState = MenuScratchMain.GameState.PLAY;
                 menuScratchMain.updateState();
